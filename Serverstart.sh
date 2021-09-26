@@ -15,4 +15,4 @@ echo "Waiting"
 sleep 5s
 clear
 echo "Startig Server"
-python3 ./manage.py runserver 0.0.0.0:8000
+python3 ./manage.py runserver 141.56.51.110:8000
