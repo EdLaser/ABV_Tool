@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': os.environ.get('SQL_DATABASE', BASE_DIR / 'db.sqlite3'),
         'USER': os.environ.get('SQL_USER', 'user'),
         'PASSWORD': os.environ.get('SQL_PASSWORD', 'password'),
-        'HOST': os.environ.get('SQL_HOST', 'localhsot'),
+        'HOST': os.environ.get('SQL_HOST', '127.0.0.1'),
         'PORT': os.environ.get('SQL_PORT', '5432')
         #'HOST': '127.0.0.1',
         #'NAME': 'Antraege',
