@@ -27,5 +27,5 @@ services:
       -   MYSQL_PASSWORD=Testpw
       -   MYSQL_DB=Testuser_dev
 
-volumes:
-  postgres_data:
+#volumes:
+#  postgres_data:
