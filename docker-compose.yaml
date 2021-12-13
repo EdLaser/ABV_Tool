@@ -21,7 +21,7 @@ services:
   db:
     image: mysql
     volumes:
-      - mysql_data: /var/lib/mysql/data/
+      - mysql_data:/var/lib/mysql/data/
     environment:
       -   MYSQL_USER=Testuser
       -   MYSQL_PASSWORD=Testpw
