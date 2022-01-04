@@ -115,7 +115,7 @@ def generate_number():
     if datetime.today().month > 8:
         legislature = str(current_year) + '/' + next_year[-2:]
 
-    continous_number = int(NumberCount.objects.all().aggregate(Max('ongoing_number')).get('ongoing_number__max'))
+    continous_number = NumberCount.objects.all().aggregate(Max('ongoing_number')).get('ongoing_number__max')
     """ Get the maximum number of the ongoing_number column (get the highest application number). """
     continous_number += 1
 
