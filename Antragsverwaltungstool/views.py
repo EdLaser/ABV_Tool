@@ -117,8 +117,12 @@ def generate_number():
 
     continous_number = NumberCount.objects.all().aggregate(Max('ongoing_number')).get('ongoing_number__max')
     """ Get the maximum number of the ongoing_number column (get the highest application number). """
-    continous_number += 1
-
+    
+    if continous_number == None:
+        continous_number = 1
+    else:
+        continous_number += 1
+        
     number = legislature + "-" + str(next_session) + "-" + str(continous_number).zfill(4)
     """ Set the number string and add leading zeros to the number."""
 
