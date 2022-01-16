@@ -12,6 +12,7 @@ urlpatterns = [
     path('new_advisory_member/', views.new_advisory, name="advisory_member"),
     path('new_conduct/', views.new_conduct, name="conduct"),
     path('intern/', views.get_all_by_electioninput, name="intern"),
+    #path('search_application/', views.get_all_by_electioninput, name="search_application"),
 
     path('show_universall/', views.change_universall, name="change_uni"),
     path('show_advisory/', views.change_advisory, name="change_advi"),

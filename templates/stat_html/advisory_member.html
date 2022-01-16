@@ -16,26 +16,7 @@
 <div class = "logo w3-animate-top">
     <a href="{%  url 'index' %}" class = "w3-hover-opacity"><img src="{% static '' %}img/logo.png" class = "sturalogo" alt="ToolLogo"/></a>
 </div>
-<div class = "navigation">
-    <ul class = "mainnav">
-        <li class = "lil"><a href="{%  url 'index' %}">Home</a></li>
-        <li class = "lil"><a href="{%  url 'universall' %}">Antrag ohne finanzielle Mittel</a></li>
-        <li class = "lil"><a href="{%  url 'finance' %}">Antrag mit finanziellen Mitteln</a></li>
-        <li class = "dropdown lil"  id = "active" ><a href="javascript:void(0)" class = "dropbtn">Antrag zur: ▼</a>
-            <div class = "dropdown-content w3-animate-opacity">
-                <a href="{%  url 'advisory_member' %}"  id = "active" >Beratendes Mitglied</a>
-                <a href="{%  url 'election_report' %}">Stelle/Amt</a>
-                <a href="{% url 'conduct' %}">Herstellung des Benehmens</a>
-            </div>
-        </li>
-        {% if user.is_authenticated %}<li class = "lil"><a href="{%  url 'intern' %}">Intern</a></li>{% endif %}
-
-        <li class = "lir"><a href="https://www.stura.htw-dresden.de/">
-            <img src="{% static 'img/Stura_htw.png' %}" style="width: 84px" alt = "SturaLogo"/></a>
-        </li>
-        {% include 'is_logged_in.html' %}
-    </ul>
-</div>
+{% include 'header.html' %}
 
 <div class = "content w3-animate-opacity">
     <form action="" method="POST">
