@@ -117,8 +117,12 @@ def generate_number():
 
     continous_number = NumberCount.objects.all().aggregate(Max('ongoing_number')).get('ongoing_number__max')
     """ Get the maximum number of the ongoing_number column (get the highest application number). """
-    continous_number += 1
-
+    
+    if continous_number == None:
+        continous_number = 1
+    else:
+        continous_number += 1
+        
     number = legislature + "-" + str(next_session) + "-" + str(continous_number).zfill(4)
     """ Set the number string and add leading zeros to the number."""
 
@@ -338,6 +342,28 @@ def new_conduct(request):
         # return the request and the universally.html file
     return render(request, 'stat_html/establishing_conduct.html')
 
+def get_all_objects(office):
+    # get all objects of every model
+    uni_objects = Universall.objects.all().filter(office).order_by('-date')
+    fin_objects = Finance.objects.all().filter(office).order_by('-date')
+    pos_objects = Position.objects.all().filter(office).order_by('-date')
+    adv_members = AdvisoryMember.objects.all().filter(office).order_by('-date')
+    con_objects = Conduct.objects.all().filter(office).order_by('-date')
+
+    # chain all the objects together
+    # set the context to the variables out of the database
+    context = {
+        'uni_object': uni_objects,
+        'fin_object': fin_objects,
+        'pos_object': pos_objects,
+        'adv_object': adv_members,
+        'con_object': con_objects,
+        'pos': office
+    }
+
+    return context
+
+
 
 @login_required(login_url='login')
 def get_all_by_electioninput(request):
@@ -350,40 +376,60 @@ def get_all_by_electioninput(request):
     on which file to be rendered (GET) or the request to display all the applications (POST).
     """
     if request.method == 'POST':
-        # get all objects of every model
-        uni_objects = Universall.objects.all().filter(office=request.POST.get('election_input')).order_by('-date')
-        fin_objects = Finance.objects.all().filter(office=request.POST.get('election_input')).order_by('-date')
-        pos_objects = Position.objects.all().filter(office=request.POST.get('election_input')).order_by('-date')
-        adv_members = AdvisoryMember.objects.all().filter(office=request.POST.get('election_input')).order_by('-date')
-        con_objects = Conduct.objects.all().filter(office=request.POST.get('election_input')).order_by('-date')
-        # office needs to be a string
-        office = request.POST.get('election_input')
-        # chain all the objects together
-        if not office:
-            uni_objects = Universall.objects.all().order_by('-date')
-            fin_objects = Finance.objects.all().order_by('-date')
-            pos_objects = Position.objects.all().order_by('-date')
-            adv_members = AdvisoryMember.objects.all().order_by('-date')
-            con_objects = Conduct.objects.all().order_by('-date')
-            context = {
-                'uni_object': uni_objects,
-                'fin_object': fin_objects,
-                'pos_object': pos_objects,
-                'adv_object': adv_members,
-                'con_object': con_objects,
-                'pos': office
-            }
-        else:
-            # set the context to the variables out of the database
-            context = {
-                'uni_object': uni_objects,
-                'fin_object': fin_objects,
-                'pos_object': pos_objects,
-                'adv_object': adv_members,
-                'con_object': con_objects,
-                'pos': office
-            }
-        return render(request, 'intern_out.html', context)
+        if 'display-applications' in request.POST:
+
+            office = request.POST.get('election_input')
+
+            # chain all the objects together
+            if not office:
+                uni_objects = Universall.objects.all().order_by('-date')
+                fin_objects = Finance.objects.all().order_by('-date')
+                pos_objects = Position.objects.all().order_by('-date')
+                adv_members = AdvisoryMember.objects.all().order_by('-date')
+                con_objects = Conduct.objects.all().order_by('-date')
+                context = {
+                    'uni_object': uni_objects,
+                    'fin_object': fin_objects,
+                    'pos_object': pos_objects,
+                    'adv_object': adv_members,
+                    'con_object': con_objects,
+                    'pos': office
+                }
+            else:
+                # set the context to the variables out of the database
+                context = get_all_objects(office)
+
+            return render(request, 'intern_out.html', context)
+
+        #set status flag of applications and write them to the database 
+        if 'save-application-status' in request.POST:
+            #To Do: get flag and save status
+            print("hello")
+            
+            #get all objects that are displayed
+            #xxx
+            
+            #get list of checked applications
+            checked_applications = "TEXT"
+            #checked_applications = request.POST.getlist('checks')
+            
+
+            
+                #results = model.objects.filter(q_object)
+                #search_results.append(results)
+
+            #check in for loop
+            for check in checked_applications:
+
+                print("hello")
+
+            return render(request, 'stat_html/index.html', checked_applications)
+
+            
+        else:    
+            return render(request, 'stat_html/intern.html')
+
+
     else:
         return render(request, 'stat_html/intern.html')
 
