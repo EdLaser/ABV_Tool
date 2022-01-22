@@ -3,6 +3,6 @@
         <td style="text-align: center"><a class = "ap_link" href="{{ application.get_absolute_url }}">{{ application.number }}</a></td>
         <td style="text-align: center">{{ application.title }}</td>
         <td style="text-align: center">{{ application.date }}</td>
-        <td style="text-align: center"><span><input type="checkbox" name="application_check" value="{{ application.number }}" {% if application.flag %} checked{% endif %}></span></td>
+        {% if user.is_authenticated %}<td style="text-align: center"><span><input type="checkbox" name="application_check" value="{{ application.number }}" {% if application.flag %} checked{% endif %}></span></td>{% endif %}
     </tr>
 </li>

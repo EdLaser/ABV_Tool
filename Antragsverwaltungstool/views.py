@@ -346,7 +346,31 @@ def new_conduct(request):
 
 def published_applications(request):
 
+    if request.method == 'POST':
+        if 'display-applications' in request.POST:
 
+            office = request.POST.get('election_input')
+
+            # chain all the objects together
+            if not office:
+                uni_objects = Universall.objects.filter(flag=1).order_by('-date')
+                fin_objects = Finance.objects.filter(flag=1).order_by('-date')
+                pos_objects = Position.objects.filter(flag=1).order_by('-date')
+                adv_members = AdvisoryMember.objects.filter(flag=1).order_by('-date')
+                con_objects = Conduct.objects.filter(flag=1).order_by('-date')
+                context = {
+                    'uni_object': uni_objects,
+                    'fin_object': fin_objects,
+                    'pos_object': pos_objects,
+                    'adv_object': adv_members,
+                    'con_object': con_objects,
+                    'pos': office
+                }
+            else:
+                # set the context to the variables out of the database
+                context = get_all_objects(office) #do not work now
+            
+            return render(request, 'published_applications_out.html', context)
 
     return render(request, 'stat_html/published_applications.html')
 
@@ -406,7 +430,7 @@ def get_all_by_electioninput(request):
                 }
             else:
                 # set the context to the variables out of the database
-                context = get_all_objects(office)
+                context = get_all_objects(office) #do not work now
 
             return render(request, 'intern_out.html', context)
 

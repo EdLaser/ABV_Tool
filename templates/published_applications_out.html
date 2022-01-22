@@ -1,0 +1,106 @@
+{% extends 'stat_html/published_applications.html'%}
+
+{% block published_out %}
+{% if pos %}<h3>Alle Anträge an: {{ pos }}</h3>
+{% else %}<h3>Alle Anträge an alle Stellen:</h3>
+{% endif %}
+<ul style="list-style-type:none;">
+    <table style="width: 100%">
+
+        <!--Anträge ohne finanzielle Mittel-->
+        {% if uni_object %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>Anträge ohne finanzielle Mittel:</b></td>
+            </tr>
+        </li>
+        {% include "intern_application_header.html" with element=application %}
+        {% for application in uni_object %}
+            {% include "intern_application.html" with element=application %}
+        {% endfor %}
+        {% else %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>keine Anträge ohne finanzielle Mittel!</b></td>
+            </tr>
+        </li>
+        {% endif %}
+
+        <!--Anträge mit finanziellen Mitteln-->
+        {% if fin_object %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>Anträge mit finanziellen Mitteln:</b></td>
+            </tr>
+        </li>
+        {% include "intern_application_header.html" with element=application %}
+        {% for application in fin_object %}
+            {% include "intern_application.html" with element=application %}
+        {% endfor %}
+        {% else %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>keine Anträge mit finanziellen Mitteln!</b></td>
+            </tr>
+        </li>
+        {% endif %}
+
+        <!--Anträge zur Stelle/Amt:-->
+        {% if pos_object %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>Anträge zur Stelle/Amt:</b></td>
+            </tr>
+        </li>
+        {% include "intern_application_header.html" with element=application %}
+        {% for application in pos_object %}
+            {% include "intern_application.html" with element=application %}
+        {% endfor %}
+        {% else %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>keine Anträge zur Stelle/Amt!</b></td>
+            </tr>
+        </li>
+        {% endif %}
+
+        <!--Anträge für beratende Mitglieder-->
+        {% if adv_object %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>Anträge für beratende Mitglieder:</b></td>
+            </tr>
+        </li>
+        {% include "intern_application_header.html" with element=application %}
+        {% for application in adv_object %}
+            {% include "intern_application.html" with element=application %}
+        {% endfor %}
+        {% else %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>keine Anträge für beratende Mitglieder!</b></td>
+            </tr>
+        </li>
+        {% endif %}
+
+        <!--Anträge zum Herstellen des Benehmens-->
+        {% if con_object %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>Anträge zum Herstellen des Benehmens:</b></td>
+            </tr>
+        </li>
+        {% include "intern_application_header.html" with element=application %}
+        {% for application in con_object %}
+            {% include "intern_application.html" with element=application %}
+        {% endfor %}
+        {% else %}
+        <li>
+            <tr>
+                <td style="text-align: center"><b>keine Anträge zum Herstellen des Benehmens!</b></td>
+            </tr>
+        </li>
+        {% endif %}
+    </table>
+</ul>
+{% endblock %}
