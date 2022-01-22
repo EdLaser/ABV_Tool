@@ -1,6 +1,7 @@
 """ Sets the views handling the requests mapped by the urls.py."""
 import calendar
 from datetime import datetime, date, timedelta
+from queue import Empty
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
@@ -403,35 +404,49 @@ def get_all_by_electioninput(request):
 
         #set status flag of applications and write them to the database 
         if 'save-application-status' in request.POST:
-            #To Do: get flag and save status
-            print("hello")
-            
-            #get all objects that are displayed
-            #xxx
-            
-            #get list of checked applications
-            checked_applications = "TEXT"
-            #checked_applications = request.POST.getlist('checks')
-            
 
-            
-                #results = model.objects.filter(q_object)
-                #search_results.append(results)
+            #ToDo: Bis jetzt kann man Anträge nur veröffentlichen, in der Zunkunf soll man sie auch wieder offline nehmen können 
 
-            #check in for loop
-            for check in checked_applications:
+            #put all classes in one array
+            array_of_classes = [Universall, Finance, Position, AdvisoryMember, Conduct]
 
-                print("hello")
+            #get all application id's of the displayed applications with a checked flag
+            application_id_list = request.POST.getlist('application_check')
 
-            return render(request, 'stat_html/index.html', checked_applications)
+            #iterate throug application object array ; check flag status and safe the new flag status
+            for id in application_id_list:
+                number = id
 
-            
-        else:    
-            return render(request, 'stat_html/intern.html')
+                #get the object
+                for class_name in array_of_classes:
+                    try:
+                        object = get_object_or_404(class_name, number=number)
+                        print(class_name)
+                    except:
+                        print('get_object_or_404 -> Error 404')
 
+                    if object: #if object not empty
+                        print("IsObject")
+                        print(object)
 
-    else:
+                        if object.flag == 0:
+                            object.flag = 1
+                            object.save()
+                    else:
+                        break
+
+            context = {
+                    'checked_applications': "Alle Anträge wurden gespeichert!",
+                }
+
+            return render(request, 'stat_html/intern.html', context)
+         
+    else:    
         return render(request, 'stat_html/intern.html')
+
+
+
+    
 
 
 def common_change(request, object_change, number):

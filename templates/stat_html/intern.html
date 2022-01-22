@@ -82,22 +82,20 @@
             <div class="w3-card-4">
                 <header class="w3-container" style="background-color: #F2AC2E;">
                     <h2>Ergebnisse:</h2>
-                    
-                    <form class = "myform" action="" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" class = "w3-button w3-green mybutton" name="save-application-status" value="Aenderungen fixieren">
-
-
-                    </form>
                 </header>
 
                 <div class="w3-container w3-light-gray">
-                    <div class = "sqloutput">
-                        {{ checked_applications }}
-                        <p>TEXT</p>
-                        {% block out %}
-                        {% endblock %}
-                    </div>
+                    <form class = "myform" action="" method="POST">
+                        {% csrf_token %}
+                        <div class = "sqloutput">
+
+                            {{ checked_applications }}
+                            <input type="submit" class = "w3-button w3-green mybutton" name="save-application-status" value="Anträge veröffentlichen">
+                            {% block out %}
+                            {% endblock %}
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
