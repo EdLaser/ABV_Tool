@@ -4,7 +4,7 @@
         <li {% if request.get_full_path == "/Antragsverwaltungstool/" %} id = "active"{% endif %} class = "lil"><a href="{%  url 'index' %}">Home</a></li>
         <li {% if request.get_full_path == "/Antragsverwaltungstool/new_universall/" %} id = "active"{% endif %} class = "lil"><a href="{%  url 'universall' %}">Antrag ohne finanzielle Mittel</a></li>
         <li {% if request.get_full_path == "/Antragsverwaltungstool/new_finance/" %} id = "active"{% endif %} class = "lil"><a href="{%  url 'finance' %}">Antrag mit finanziellen Mitteln</a></li>
-        <!--<li class = "lil"><a href="search_application/">Neuste Anträge</a></li>-->
+        <li {% if request.get_full_path == "/Antragsverwaltungstool/published_applications/" %} id = "active"{% endif %} class = "lil"><a href="{%  url 'published_applications' %}">Veröffentlichte Anträge</a></li>
         <li class = "dropdown lil"><a href="javascript:void(0)" class = "dropbtn">Antrag zur: ▼</a>
             <div class = "dropdown-content w3-animate-opacity">
                 <a href="{%  url 'advisory_member' %}">Beratendes Mitglied</a>

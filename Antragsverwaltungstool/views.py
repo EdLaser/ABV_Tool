@@ -343,6 +343,14 @@ def new_conduct(request):
         # return the request and the universally.html file
     return render(request, 'stat_html/establishing_conduct.html')
 
+
+def published_applications(request):
+
+
+
+    return render(request, 'stat_html/published_applications.html')
+
+
 def get_all_objects(office):
     # get all objects of every model
     uni_objects = Universall.objects.all().filter(office).order_by('-date')
