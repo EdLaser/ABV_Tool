@@ -1,6 +1,7 @@
 """ Sets the views handling the requests mapped by the urls.py."""
 import calendar
 from datetime import datetime, date, timedelta
+from queue import Empty
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
@@ -342,6 +343,38 @@ def new_conduct(request):
         # return the request and the universally.html file
     return render(request, 'stat_html/establishing_conduct.html')
 
+
+def published_applications(request):
+
+    if request.method == 'POST':
+        if 'display-applications' in request.POST:
+
+            office = request.POST.get('election_input')
+
+            # chain all the objects together
+            if not office:
+                uni_objects = Universall.objects.filter(flag=1).order_by('-date')
+                fin_objects = Finance.objects.filter(flag=1).order_by('-date')
+                pos_objects = Position.objects.filter(flag=1).order_by('-date')
+                adv_members = AdvisoryMember.objects.filter(flag=1).order_by('-date')
+                con_objects = Conduct.objects.filter(flag=1).order_by('-date')
+                context = {
+                    'uni_object': uni_objects,
+                    'fin_object': fin_objects,
+                    'pos_object': pos_objects,
+                    'adv_object': adv_members,
+                    'con_object': con_objects,
+                    'pos': office
+                }
+            else:
+                # set the context to the variables out of the database
+                context = get_all_objects(office) #do not work now
+            
+            return render(request, 'published_applications_out.html', context)
+
+    return render(request, 'stat_html/published_applications.html')
+
+
 def get_all_objects(office):
     # get all objects of every model
     uni_objects = Universall.objects.all().filter(office).order_by('-date')
@@ -397,41 +430,55 @@ def get_all_by_electioninput(request):
                 }
             else:
                 # set the context to the variables out of the database
-                context = get_all_objects(office)
+                context = get_all_objects(office) #do not work now
 
             return render(request, 'intern_out.html', context)
 
         #set status flag of applications and write them to the database 
         if 'save-application-status' in request.POST:
-            #To Do: get flag and save status
-            print("hello")
-            
-            #get all objects that are displayed
-            #xxx
-            
-            #get list of checked applications
-            checked_applications = "TEXT"
-            #checked_applications = request.POST.getlist('checks')
-            
 
-            
-                #results = model.objects.filter(q_object)
-                #search_results.append(results)
+            #ToDo: Bis jetzt kann man Anträge nur veröffentlichen, in der Zunkunf soll man sie auch wieder offline nehmen können 
 
-            #check in for loop
-            for check in checked_applications:
+            #put all classes in one array
+            array_of_classes = [Universall, Finance, Position, AdvisoryMember, Conduct]
 
-                print("hello")
+            #get all application id's of the displayed applications with a checked flag
+            application_id_list = request.POST.getlist('application_check')
 
-            return render(request, 'stat_html/index.html', checked_applications)
+            #iterate throug application object array ; check flag status and safe the new flag status
+            for id in application_id_list:
+                number = id
 
-            
-        else:    
-            return render(request, 'stat_html/intern.html')
+                #get the object
+                for class_name in array_of_classes:
+                    try:
+                        object = get_object_or_404(class_name, number=number)
+                        print(class_name)
+                    except:
+                        print('get_object_or_404 -> Error 404')
 
+                    if object: #if object not empty
+                        print("IsObject")
+                        print(object)
 
-    else:
+                        if object.flag == 0:
+                            object.flag = 1
+                            object.save()
+                    else:
+                        break
+
+            context = {
+                    'checked_applications': "Alle Anträge wurden gespeichert!",
+                }
+
+            return render(request, 'stat_html/intern.html', context)
+         
+    else:    
         return render(request, 'stat_html/intern.html')
+
+
+
+    
 
 
 def common_change(request, object_change, number):
