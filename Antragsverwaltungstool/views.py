@@ -377,11 +377,12 @@ def published_applications(request):
 
 def get_all_objects(office):
     # get all objects of every model
-    uni_objects = Universall.objects.all().filter(office).order_by('-date')
-    fin_objects = Finance.objects.all().filter(office).order_by('-date')
-    pos_objects = Position.objects.all().filter(office).order_by('-date')
-    adv_members = AdvisoryMember.objects.all().filter(office).order_by('-date')
-    con_objects = Conduct.objects.all().filter(office).order_by('-date')
+    # logger.warning(office)
+    uni_objects = Universall.objects.filter(office=office).order_by('-date')
+    fin_objects = Finance.objects.filter(office=office).order_by('-date')
+    pos_objects = Position.objects.filter(office=office).order_by('-date')
+    adv_members = AdvisoryMember.objects.filter(office=office).order_by('-date')
+    con_objects = Conduct.objects.filter(office=office).order_by('-date')
 
     # chain all the objects together
     # set the context to the variables out of the database
