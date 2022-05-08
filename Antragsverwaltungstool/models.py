@@ -1,6 +1,18 @@
 """ Defines all the models the application is working with. """
 import django
 from django.db import models
+import os
+
+
+
+def upload_attachment(instance, filename):
+        print(os.getcwd() + filename)
+        #return f"" + os.getcwd() + "/" + filename + ""
+        return f"{filename}"
+        
+
+
+
 
 
 class AdvisoryMember(models.Model):
@@ -35,7 +47,7 @@ class AdvisoryMember(models.Model):
     """ Is the applicant willing to put work outside his position. """
     frg4 = models.CharField(max_length=260, null=True)
     """ How can the applicant support during a zombie apocalypose. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """

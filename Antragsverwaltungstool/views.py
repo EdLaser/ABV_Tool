@@ -223,7 +223,7 @@ def new_advisory(request):
     """
     if request.method == 'POST':
         flag = 0
-        print(request)
+        #print(request)
         number = generate_number()
         # set the date as the current systemdate
         date_today = date.today()
@@ -246,7 +246,10 @@ def new_advisory(request):
         # how can the applicant support during a zombie apocalypose
         frg4 = request.POST.get('frg4')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        print(anlagen)
+        print("_________")
+        print(request.POST.get("attachment"))
         # initalize the model object
         new_adv = AdvisoryMember(flag, number, date_today, title, office, name, mail, text, frg1, frg2, frg3, frg4,
                                  anlagen)

@@ -19,7 +19,7 @@
 {% include 'header.html' %}
 
 <div class = "content w3-animate-opacity">
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {%  csrf_token %}
         <div class = "form">
             <label><b>Antragstitel:</b></label><br>
@@ -111,8 +111,8 @@
 
         <div>
             <label><b>Anlagen:</b></label><br>
-            <textarea class = "w3-input w3-border" name = "anlgn" rows = "4" maxlength="260" style="margin-bottom: 10px"></textarea>
-            <!--<input class = "upl" type="file" name = "fileupl" >-->
+            <!--<textarea class = "w3-input w3-border" name = "anlgn" rows = "4" maxlength="260" style="margin-bottom: 10px"></textarea>-->
+            <input class = "upl" type="file" name="attachment" >
         </div>
             <div class = "w3-row-padding">
                 <input type="submit" class = "w3-button w3-green mybutton" value="Absenden">
