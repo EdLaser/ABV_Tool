@@ -22,6 +22,17 @@ from itertools import chain
 # - Implement deleting
 # - Implement show all entrys
 # Methods to render the GET requests of the html files
+
+#Functions
+def checkFileSize(attachment):
+    limit = 5 * 1024 * 1024 #5 MiB
+    if attachment.size > limit:
+        #print("File too large. Size should not exceed 5 MiB.")
+        attachment = None; #set attachment to None
+    return attachment
+
+
+#Views
 def index(request):
     """ Return a HttpResponse with the index.html file when calling the website"""
     return render(request, 'stat_html/index.html')
@@ -164,7 +175,9 @@ def new_universall(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
         # initialize a new object according to the model
         new_uni = Universall(flag, number, date_today, title, office, name, mail, text, reason, suggestion, anlagen)
         # save the object to the database by calling the django method "save" on the object
@@ -203,7 +216,9 @@ def new_finance(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
         # initialize a new finance object with the variables
         new_fin = Finance(flag, number, date_today, title, office, name, mail, text, reason, budget, suggestion,
                           anlagen)
@@ -247,9 +262,8 @@ def new_advisory(request):
         frg4 = request.POST.get('frg4')
         # attachments to the entry
         anlagen = request.FILES.get("attachment")
-        print(anlagen)
-        print("_________")
-        print(request.POST.get("attachment"))
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
         # initalize the model object
         new_adv = AdvisoryMember(flag, number, date_today, title, office, name, mail, text, frg1, frg2, frg3, frg4,
                                  anlagen)
@@ -298,7 +312,9 @@ def new_position(request):
         # what topics does the applicant plan to  put in the foreground in his term of office
         frg_spez_3 = request.POST.get('frg7')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
         # initialize the object with the vars
         new_pos = Position(flag, number, date_today, title, office, name, mail, text, frg1, frg2, frg3, frg4,
                            frg_spez_1,
@@ -338,7 +354,9 @@ def new_conduct(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
         # initialize a new object according to the model
         new_con = Conduct(flag, number, date_today, title, office, name, mail, text, reason, suggestion, anlagen)
         # save the object to the database by calling the django method "save" on the object
