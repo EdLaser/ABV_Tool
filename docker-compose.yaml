@@ -3,11 +3,11 @@ version: '3.6'
 services:
   webserver:
     build: ./
-    command: bash -c "python3 manage.py wait_for_database && python3 manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 manage.py wait_for_database && python3 manage.py migrate && python manage.py runserver 0.0.0.0:"
     volumes:
       - ./:/usr/src/Antragsverwaltungstool
     ports:
-      - 8000:8000
+      - 5432:5432
     env_file:
       - ./.env.dev
     container_name: django_webserver
