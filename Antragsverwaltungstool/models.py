@@ -47,6 +47,8 @@ class AdvisoryMember(models.Model):
     """ Text of the deciosion. """
     beschlussgrund = models.CharField(max_length=250, null=True)
     """ Reason for the deciosion. """
+    status = models.IntegerField(default=0)
+    """ Application WIP status """
 
     class Meta:
         """ Sets the ordering for the model. """
@@ -109,6 +111,8 @@ class Finance(models.Model):
     """ Text of the deciosion. """
     beschlussgrund = models.CharField(max_length=250, null=True)
     """ Reason for the deciosion. """
+    status = models.IntegerField(default=0)
+    """ Application WIP status """
 
     class Meta:
         """ Sets the ordering for the model. """
@@ -180,6 +184,8 @@ class Position(models.Model):
     """ Text of the deciosion. """
     beschlussgrund = models.CharField(max_length=250, null=True)
     """ Reason for the deciosion. """
+    status = models.IntegerField(default=0)
+    """ Application WIP status """
 
     class Meta:
         """ Sets the ordering for the model. """
@@ -241,6 +247,8 @@ class Universall(models.Model):
     """ Text of the deciosion. """
     beschlussgrund = models.CharField(max_length=250, null=True)
     """ Reason for the deciosion. """
+    status = models.IntegerField(default=0)
+    """ Application WIP status """
 
     class Meta:
         """ Sets the ordering for the model. """
@@ -302,6 +310,8 @@ class Conduct(models.Model):
     """ Text of the deciosion. """
     beschlussgrund = models.CharField(max_length=250, null=True)
     """ Reason for the deciosion. """
+    status = models.IntegerField(default=0)
+    """ Application WIP status """
 
     class Meta:
         """ Sets the ordering for the model. """
