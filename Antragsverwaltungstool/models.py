@@ -1,6 +1,21 @@
 """ Defines all the models the application is working with. """
 import django
 from django.db import models
+import os
+#from formatChecker import ContentTypeRestrictedFileField
+from django.core.exceptions import ValidationError
+
+def file_size(value): # add this to some file where you can import it from
+    limit = 5 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 5 MiB.')
+
+
+
+def upload_attachment(instance, filename):
+        print(os.getcwd() + filename)
+        #return f"" + os.getcwd() + "/" + filename + ""
+        return f"{filename}"
 
 
 class AdvisoryMember(models.Model):
@@ -35,7 +50,7 @@ class AdvisoryMember(models.Model):
     """ Is the applicant willing to put work outside his position. """
     frg4 = models.CharField(max_length=260, null=True)
     """ How can the applicant support during a zombie apocalypose. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """
@@ -99,7 +114,7 @@ class Finance(models.Model):
     """ Budget needed for the application. """
     suggestion = models.CharField(max_length=260, null=True)
     """ Suggestion what should be done after the applications is processed. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """
@@ -172,7 +187,7 @@ class Position(models.Model):
     """ Evaluation of the previous work done by predecessors. """
     frg_spez_3 = models.CharField(max_length=260, null=True)
     """ What topics does the applicant plan to  put in the foreground in his term of office. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """
@@ -235,7 +250,7 @@ class Universall(models.Model):
     """ Reason why the application has been made. """
     suggestion = models.CharField(max_length=260, null=True)
     """ Suggestion what should be done after the applications is processed. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """
@@ -298,7 +313,7 @@ class Conduct(models.Model):
     """ Reason why the application has been made. """
     suggestion = models.CharField(max_length=260, null=True)
     """ Suggestion what should be done after the applications is processed. """
-    anlagen = models.CharField(max_length=260, null=True)
+    anlagen = models.FileField(upload_to=upload_attachment, null=True)
     """ Attachments to the entry. """
     aenderung = models.CharField(max_length=260, null=True)
     """ Possible changes of the application. """

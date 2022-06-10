@@ -8,6 +8,7 @@ from django.db.models import Max
 from django.shortcuts import render, get_object_or_404
 from Antragsverwaltungstool.models import Universall, Finance, AdvisoryMember, Position, Conduct, NumberCount
 from itertools import chain
+import re
 
 
 # This module deals with user requests for files/data and renders the response (HTML-FIlE) with or without
@@ -22,6 +23,26 @@ from itertools import chain
 # - Implement deleting
 # - Implement show all entrys
 # Methods to render the GET requests of the html files
+
+#Functions
+def checkFileSize(attachment):
+    limit = 5 * 1024 * 1024 #5 MiB
+    if attachment.size > limit:
+        #print("File too large. Size should not exceed 5 MiB.")
+        attachment = None; #set attachment to None
+    return attachment
+
+def checkFileFormat(attachment):
+    if(re.match(r'.*?\.pdf$', str(attachment)) == None):
+        #print(str(attachment))
+        #print("The given file is not a pdf")
+        attachment = None; 
+    return attachment
+
+
+
+
+#Views
 def index(request):
     """ Return a HttpResponse with the index.html file when calling the website"""
     return render(request, 'stat_html/index.html')
@@ -97,7 +118,7 @@ def generate_number():
     try:
         for key in temp:
             if (date.today() > temp[temp.index(key)]) & (date.today() < temp[temp.index(key) + 1]):
-                print("found")
+                #print("found")
                 next_session = sessions[key]
                 break
     except(ValueError, IndexError):
@@ -110,7 +131,7 @@ def generate_number():
     if datetime.today().month < 8:
         last_year = current_year - 1
         current_year = str(current_year)
-        print(current_year)
+        #print(current_year)
         legislature = str(last_year) + '/' + current_year[-2:]
 
     if datetime.today().month > 8:
@@ -164,7 +185,11 @@ def new_universall(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
+        #check file format
+        anlagen = checkFileFormat(anlagen)
         # initialize a new object according to the model
         new_uni = Universall(flag, number, date_today, title, office, name, mail, text, reason, suggestion, anlagen)
         # save the object to the database by calling the django method "save" on the object
@@ -203,7 +228,11 @@ def new_finance(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
+        #check file format
+        anlagen = checkFileFormat(anlagen)
         # initialize a new finance object with the variables
         new_fin = Finance(flag, number, date_today, title, office, name, mail, text, reason, budget, suggestion,
                           anlagen)
@@ -223,7 +252,7 @@ def new_advisory(request):
     """
     if request.method == 'POST':
         flag = 0
-        print(request)
+        #print(request)
         number = generate_number()
         # set the date as the current systemdate
         date_today = date.today()
@@ -246,7 +275,11 @@ def new_advisory(request):
         # how can the applicant support during a zombie apocalypose
         frg4 = request.POST.get('frg4')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
+        #check file format
+        anlagen = checkFileFormat(anlagen)
         # initalize the model object
         new_adv = AdvisoryMember(flag, number, date_today, title, office, name, mail, text, frg1, frg2, frg3, frg4,
                                  anlagen)
@@ -295,7 +328,11 @@ def new_position(request):
         # what topics does the applicant plan to  put in the foreground in his term of office
         frg_spez_3 = request.POST.get('frg7')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
+        #check file format
+        anlagen = checkFileFormat(anlagen)
         # initialize the object with the vars
         new_pos = Position(flag, number, date_today, title, office, name, mail, text, frg1, frg2, frg3, frg4,
                            frg_spez_1,
@@ -335,7 +372,11 @@ def new_conduct(request):
         # the suggestion what should be done after the application is processed
         suggestion = request.POST.get('vrshzverf')
         # attachments to the entry
-        anlagen = request.POST.get('anlgn')
+        anlagen = request.FILES.get("attachment")
+        #check file size - if size too big -> set file to none
+        anlagen = checkFileSize(anlagen)
+        #check file format
+        anlagen = checkFileFormat(anlagen)
         # initialize a new object according to the model
         new_con = Conduct(flag, number, date_today, title, office, name, mail, text, reason, suggestion, anlagen)
         # save the object to the database by calling the django method "save" on the object
