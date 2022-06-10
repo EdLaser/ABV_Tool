@@ -55,7 +55,7 @@ jobs:
         run: |
           ls -a
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requierements.txt
       
       - name: Run Tests
         env: 
