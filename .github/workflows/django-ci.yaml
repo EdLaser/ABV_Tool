@@ -2,9 +2,6 @@
 
 name: Django CI/CD 
 
-env:
-  TEST_PATH: ./django-on-docker/app/
-
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -51,14 +48,12 @@ jobs:
 
       - name: setup venv
         run: |
-          cd $TEST_PATH
           python -m venv venv
           source venv/bin/activate
 
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          cd $TEST_PATH
           pip install -r requirements.txt
       
       - name: Run Tests
@@ -71,7 +66,6 @@ jobs:
           POSTGRES_PORT: 5432
         run: |
           ls -a
-          cd $TEST_PATH
           python manage.py test
 
        
