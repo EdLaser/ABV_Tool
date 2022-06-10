@@ -114,6 +114,33 @@
                 <label><b>Begründung zum Beschluss:</b></label>
                 <textarea class = "w3-input w3-border" name = "begtext" rows = "4" placeholder="Beschlussbegründung..." maxlength="260">{{ uni_object.beschlussgrund }}</textarea>
             </div>
+
+            <label><b>Kategorien zum Bearbeitungsstand wählen:</b></label><br>
+                        <label>
+                            <select class="w3-select w3-border" id = "Sin" onchange="toggledisplay('own')" name = "status" required>
+                                <option disabled {% if uni_object.status == 0 %} selected {% endif %}>Bitte Auswählen</option>
+                                <optgroup label="Antragstellende">
+                                    <option name = "Status" value = "1" {% if uni_object.status == 1 %} selected {% endif %}>Antrag eingereicht</option>
+                                    <option name = "Status" value = "2" {% if uni_object.status == 2 %} selected {% endif %}>Antrag zurückgezogen</option>
+                                </optgroup>
+                                <optgroup label="Präsidium">
+                                    <option name = "Status" value = "3" {% if uni_object.status == 3 %} selected {% endif %}>Antrag unvollständig</option>
+                                    <option name = "Status" value = "4" {% if uni_object.status == 4 %} selected {% endif %}>Antrag zurückgewiesen</option>
+                                </optgroup>
+                                <optgroup label="Organ">
+                                    <option name = "Status" value = "5" {% if uni_object.status == 5 %} selected {% endif %}>Antrag vertagt</option>
+                                    <option name = "Status" value = "6" {% if uni_object.status == 6 %} selected {% endif %}>Antrag nicht behandelt</option>
+                                    <option name = "Status" value = "7" {% if uni_object.status == 7 %} selected {% endif %}>Antrag zugestimmt</option>
+                                    <option name = "Status" value = "8" {% if uni_object.status == 8 %} selected {% endif %}>Antrag abgelehnt</option>
+                                </optgroup>
+                                <optgroup label="P">
+                                    <option name = "Status" value = "9" {% if uni_object.status == 9 %} selected {% endif %}>Antrag teilweise umgesetzt</option>
+                                    <option name = "Status" value = "10" {% if uni_object.status == 10 %} selected {% endif %}>Antrag umgesetzt</option>
+                                    <option name = "Status" value = "11" {% if uni_object.status == 11 %} selected {% endif %}>Antrag nicht umgesetzt</option>
+                                </optgroup>
+                            </select>
+                            <script src="{% static 'js/toggledisplay.js' %}"></script>
+                        </label>
         </div>
 
         <div class = "form" id = "StelleInput" style="display: none">

@@ -508,6 +508,7 @@ def common_change(request, object_change, number):
     object_change.beschlussgrund = request.POST.get('begtext')
     object_change.anlagen = request.POST.get('anlgn')
     object_change.aenderung = request.POST.get('aenda')
+    object_change.status = request.POST.get('status')
 
 @login_required(login_url='login')
 def change_universall(request):
@@ -525,6 +526,7 @@ def change_universall(request):
         common_change(request, uni_object, number)
         uni_object.suggestion = request.POST.get('vrshzverf')
         uni_object.save()
+        
 
         return render(request, 'stat_html/universally_stura.html')
     # when number is not given render without object
