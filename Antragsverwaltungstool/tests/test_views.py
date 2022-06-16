@@ -37,12 +37,6 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/advisory_member.html')
 
-    def test_intern_GET(self):
-        response = self.client.get(reverse('intern'))
-
-        self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/intern.html')
-
     def test_new_universall_POST(self):
         response = self.client.post(reverse('universall'), {
             'flag': 0,
@@ -135,38 +129,38 @@ class TestViews(TestCase):
         })
 
         self.assertEquals(response.status_code, 200)
+        
+    def test_intern_GET(self):
+        response = self.client.get(reverse('intern'))
+
+        self.assertEquals(response.status_code, 302)
 
     def test_login_required(self):
         response = self.client.get(reverse('login'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
 
     def test_change_universall_GET(self):
         response = self.client.get(reverse('change_uni'))
 
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/universally_stura.html')
 
     def test_change_advisory_GET(self):
         response = self.client.get(reverse('change_advi'))
 
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/advisory_member_stura.html')
 
     def test_change_position_GET(self):
         response = self.client.get(reverse('change_posi'))
 
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/election_report_stura.html')
 
     def test_change_finance_GET(self):
         response = self.client.get(reverse('change_fin'))
 
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/finance_stura.html')
 
     def test_change_conduct_GET(self):
         response = self.client.get(reverse('change_con'))
 
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, 'stat_html/establishing_conduct_stura.html')
