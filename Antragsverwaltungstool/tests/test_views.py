@@ -1,65 +1,48 @@
 from cgi import test
-from urllib import response
 from django.test import TestCase, Client
 from django.urls import reverse
-from datetime import datetime, date, timedelta
-from Antragsverwaltungstool.models import AdvisoryMember, Finance, Position, Universall, Conduct
-import json
 
 
 class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        self.Test = Universall.objects.create(
-            flag = 0,
-            number = 5,
-            date = '2022-06-12',
-            title = 'Test',
-            office = 'test',
-            mail = 'MaxMustermann@gmx.de',
-            text = 'blub',
-            reason = 'blub',
-            suggestion= 'yes',
-            anlagen = 'blub'
-        )
-    
+
     def test_index_GET(self):
         response = self.client.get(reverse('index'))
-        
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/index.html')
-        
+
     def test_finance_GET(self):
         response = self.client.get(reverse('finance'))
-        
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/finance.html')
-        
+
     def test_universally_GET(self):
         response = self.client.get(reverse('universall'))
-        
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/universally.html')
-        
+
     def test_election_GET(self):
         response = self.client.get(reverse('election_report'))
-        
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/election_report.html')
-        
+
     def test_advisory_GET(self):
         response = self.client.get(reverse('advisory_member'))
-        
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'stat_html/advisory_member.html')
-        
+
     def test_intern_GET(self):
         response = self.client.get(reverse('intern'))
-        
-        self.assertEquals(response.status_code, 200)
+
+        self.assertEquals(response.status_code, 302)
         self.assertTemplateUsed(response, 'stat_html/intern.html')
-        
+
     def test_new_universall_POST(self):
         response = self.client.post(reverse('universall'), {
             'flag': 0,
@@ -74,9 +57,9 @@ class TestViews(TestCase):
             'suggestion': 'blub',
             'anlagen': 'blub',
         })
-        
+
         self.assertEquals(response.status_code, 200)
-        
+
     def test_new_finance_POST(self):
         response = self.client.post(reverse('finance'), {
             'flag': 0,
@@ -92,9 +75,9 @@ class TestViews(TestCase):
             'suggestion': 'blub',
             'anlagen': 'blub',
         })
-        
+
         self.assertEquals(response.status_code, 200)
-    
+
     def test_new_advisory_POST(self):
         response = self.client.post(reverse('advisory_member'), {
             'flag': 0,
@@ -111,9 +94,9 @@ class TestViews(TestCase):
             'frg4': 'Wo?',
             'anlagen': 'blub',
         })
-        
+
         self.assertEquals(response.status_code, 200)
-        
+
     def test_new_Position_POST(self):
         response = self.client.post(reverse('election_report'), {
             'flag': 0,
@@ -133,9 +116,9 @@ class TestViews(TestCase):
             'frg_spez_3': 'Wieso?',
             'anlagen': 'blub',
         })
-        
+
         self.assertEquals(response.status_code, 200)
-        
+
     def test_new_conduct_POST(self):
         response = self.client.post(reverse('conduct'), {
             'flag': 0,
@@ -150,5 +133,40 @@ class TestViews(TestCase):
             'suggestion': 'blub',
             'anlagen': 'blub',
         })
-        
+
         self.assertEquals(response.status_code, 200)
+
+    def test_login_required(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_change_universall_GET(self):
+        response = self.client.get(reverse('change_uni'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertTemplateUsed(response, 'stat_html/universally_stura.html')
+
+    def test_change_advisory_GET(self):
+        response = self.client.get(reverse('change_advi'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertTemplateUsed(response, 'stat_html/advisory_member_stura.html')
+
+    def test_change_position_GET(self):
+        response = self.client.get(reverse('change_posi'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertTemplateUsed(response, 'stat_html/election_report_stura.html')
+
+    def test_change_finance_GET(self):
+        response = self.client.get(reverse('change_fin'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertTemplateUsed(response, 'stat_html/finance_stura.html')
+
+    def test_change_conduct_GET(self):
+        response = self.client.get(reverse('change_con'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertTemplateUsed(response, 'stat_html/establishing_conduct_stura.html')
