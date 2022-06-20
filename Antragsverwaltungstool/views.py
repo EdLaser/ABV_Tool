@@ -26,6 +26,9 @@ import re
 
 #Functions
 def checkFileSize(attachment):
+    if(attachment == None):
+        return attachment
+        
     limit = 5 * 1024 * 1024 #5 MiB
     if attachment.size > limit:
         #print("File too large. Size should not exceed 5 MiB.")
