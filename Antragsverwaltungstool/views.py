@@ -467,11 +467,11 @@ def get_all_by_electioninput(request):
 
             # chain all the objects together
             if not office:
-                uni_objects = Universall.objects.all().order_by('-date')
-                fin_objects = Finance.objects.all().order_by('-date')
-                pos_objects = Position.objects.all().order_by('-date')
-                adv_members = AdvisoryMember.objects.all().order_by('-date')
-                con_objects = Conduct.objects.all().order_by('-date')
+                uni_objects = Universall.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                fin_objects = Finance.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                pos_objects = Position.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                adv_members = AdvisoryMember.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                con_objects = Conduct.objects.filter(date__range=[startdate, enddate]).order_by('-date')
                 context = {
                     'uni_object': uni_objects,
                     'fin_object': fin_objects,
@@ -482,7 +482,7 @@ def get_all_by_electioninput(request):
                 }
             else:
                 # set the context to the variables out of the database
-                context = get_all_objects(office) #do not work now
+                context = get_all_objects(office, startdate, enddate)
 
             return render(request, 'intern_out.html', context)
 
