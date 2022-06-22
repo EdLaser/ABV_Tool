@@ -585,9 +585,9 @@ def get_all_by_electioninput(request):
                 for class_name in array_of_classes:
                     try:
                         object = get_object_or_404(class_name, number=number)
-                        print(class_name)
                     except:
                         print('get_object_or_404 -> Error 404')
+                        continue
 
                     if object: #if object not empty
                         print("IsObject")
