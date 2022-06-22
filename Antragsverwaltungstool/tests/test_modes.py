@@ -4,9 +4,6 @@ from django.test import TestCase
 import django
 from Antragsverwaltungstool.models import AdvisoryMember, Finance, Position, Universall, Conduct, NumberCount
 
-# TODOS:
-# okay for all future groups working on this... I k2022-06-12 I k2022-06-12... calling the Constructor like this over and over again is "not good coding"and I agree.
-# BUT there were some problems with the setup and calling of the created object. So if you read this pls try to fix this :DDD
 
 ###   ADVISORYMEMBER   ###
 class TestModel_AdvisoryMember(TestCase):
