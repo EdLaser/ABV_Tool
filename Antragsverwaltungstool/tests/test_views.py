@@ -143,24 +143,24 @@ class TestViews(TestCase):
     def test_change_universall_GET(self):
         response = self.client.get(reverse('change_uni'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
 
     def test_change_advisory_GET(self):
         response = self.client.get(reverse('change_advi'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
 
     def test_change_position_GET(self):
         response = self.client.get(reverse('change_posi'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
 
     def test_change_finance_GET(self):
         response = self.client.get(reverse('change_fin'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
 
     def test_change_conduct_GET(self):
         response = self.client.get(reverse('change_con'))
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 200)
