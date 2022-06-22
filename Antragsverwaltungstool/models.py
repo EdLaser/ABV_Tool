@@ -83,6 +83,8 @@ class AdvisoryMember(models.Model):
     def get_absolute_url(self):
         return f"/Antragsverwaltungstool/show_advisory/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
 
+    def get_absolute_url_public(self):
+        return f"/Antragsverwaltungstool/show_advisory_public/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
 
 class Finance(models.Model):
     """
@@ -146,6 +148,10 @@ class Finance(models.Model):
 
     def get_absolute_url(self):
         return f"/Antragsverwaltungstool/show_finance/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
+    def get_absolute_url_public(self):
+        return f"/Antragsverwaltungstool/show_finance_public/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
+    
+
 
 
 class Position(models.Model):
@@ -219,6 +225,8 @@ class Position(models.Model):
 
     def get_absolute_url(self):
         return f"/Antragsverwaltungstool/show_position/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
+    def get_absolute_url_public(self):
+        return f"/Antragsverwaltungstool/show_position_public/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
 
 
 class Universall(models.Model):
@@ -282,6 +290,8 @@ class Universall(models.Model):
 
     def get_absolute_url(self):
         return f"/Antragsverwaltungstool/show_universall/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
+    def get_absolute_url_public(self):
+        return f"/Antragsverwaltungstool/show_universall_public/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
 
 
 class Conduct(models.Model):
@@ -345,6 +355,8 @@ class Conduct(models.Model):
 
     def get_absolute_url(self):
         return f"/Antragsverwaltungstool/show_conduct/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
+    def get_absolute_url_public(self):
+        return f"/Antragsverwaltungstool/show_conduct_public/?antrag={self.number[:4]+'%2F'+self.number[5:]}"
 
 
 class NumberCount(models.Model):

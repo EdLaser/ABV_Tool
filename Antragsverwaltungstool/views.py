@@ -446,6 +446,86 @@ def get_all_objects(office, startdate, enddate):
 
     return context
 
+def show_universall(request):
+
+    number = request.GET.get('antrag')
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/universally_public.html')
+    # else render with object
+
+    # get the object
+    uni_object = get_object_or_404(Universall, number=number)
+    context = {
+        'uni_object': uni_object
+    }
+    return render(request, 'stat_html/universally_public.html', context)
+
+
+def show_advisory(request):
+
+    number = request.GET.get('antrag')
+    if not number:
+        return render(request, 'stat_html/advisory_member_public.html')
+    # else render with object
+    # get object out of database
+    advi_object = get_object_or_404(AdvisoryMember, number=number)
+    context = {
+        'advi_object': advi_object
+    }
+    return render(request, 'stat_html/advisory_member_public.html', context)
+
+
+def show_position(request):
+
+    number = request.GET.get('antrag')
+
+    if not number:
+        return render(request, 'stat_html/election_report_public.html')
+
+    posi_object = get_object_or_404(Position, number=number)
+    context = {
+        'posi_object': posi_object
+    }
+    return render(request, 'stat_html/election_report_public.html', context)
+
+
+def show_finance(request):
+
+    number = request.GET.get('antrag')
+
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/finance_public.html')
+    # else render with object
+
+    fina_object = get_object_or_404(Finance, number=number)
+    context = {
+        'fina_object': fina_object
+    }
+    return render(request, 'stat_html/finance_public.html', context)
+
+
+def show_conduct(request):
+
+    number = request.GET.get('antrag')
+
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/establishing_conduct_public.html')
+    # else render with object
+
+    # get the object
+    con_object = get_object_or_404(Conduct, number=number)
+    context = {
+        'con_object': con_object
+    }
+    return render(request, 'stat_html/establishing_conduct_public.html', context)
+
+
+
+
+
 
 
 @login_required(login_url='login')

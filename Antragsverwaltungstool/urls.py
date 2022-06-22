@@ -20,6 +20,12 @@ urlpatterns = [
     path('show_finance/', views.change_finance, name="change_fin"),
     path('show_conduct/', views.change_conduct, name="change_con"),
 
+    path('show_universall_public/', views.show_universall, name="change_uni"),
+    path('show_advisory_public/', views.show_advisory, name="change_advi"),
+    path('show_position_public/', views.show_position, name="change_posi"),
+    path('show_finance_public/', views.show_finance, name="change_fin"),
+    path('show_conduct_public/', views.show_conduct, name="change_con"),
+
     path('', include('django.contrib.auth.urls')),
 ]
 """ All the url patterns and the according view to the mappings """

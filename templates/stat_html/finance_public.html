@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Antrag mit finanziellen Mitteln</title>
+    <link rel="icon" href="{% static 'icon.png' %} " />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/mainstyle.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/W3.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/formular.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %} ">
+    <script src="{% static 'js/myInputToggle.js' %}"></script>
+</head>
+<body>
+<div class = "logo w3-animate-top">
+    <a href="{%  url 'index' %}" class = "w3-hover-opacity"><img src="{% static 'img/logo.png' %} " class = "sturalogo" alt="ToolLogo"/></a>
+</div>
+<div class = "navigation">
+    <ul class = "mainnav">
+        <li class = "lil"><a href="{% url 'index' %}">Home</a></li>
+        <li class = "lil"><a href="{% url 'published_applications' %}">Zurück</a></li>
+    </ul>
+</div>
+
+<div class = "content w3-animate-opacity">
+        <label><b>Antragsnummer: {% if fina_object.number %}{{ fina_object.number }}{% endif %}</b></label>
+
+        <div class = "form">
+            <label><b>Antragstitel: {% if fina_object.title %}{{ fina_object.title }}{% endif %}</b></label><br>
+        </div>
+
+        <div class = "form">
+            <label><b>Stelle: {% if fina_object.office %}{{ fina_object.office }}{% endif %}</b></label><br>
+        </div>
+
+        <div class = "form">
+            <label><b>Name: {% if fina_object.name %}{{ fina_object.name }}{% endif %}</b></label><br>
+        </div>
+
+        <div class = "form">
+            <label><b>Antragstext:</b></label>
+            <label><b>{% if fina_object.text %}{{ fina_object.text }}{% else %}Zu diesem Antrag existiert kein Antragstext{% endif %}</b></label>
+        </div>
+
+        <div class = "form">
+            <label><b>Begründung zum Antrag:</b></label>
+            <label><b>{% if fina_object.reason %}{{ fina_object.reason }}{% endif %}</b></label>
+        </div>
+
+        <div class = "form">
+            <label><b>Kostenposition im Haushaltsplan:</b></label>
+            <label><b>{% if fina_object.budget %}{{ fina_object.budget }}{% endif %}</b></label>
+        </div>
+
+        <div class = "form">
+            <label><b>Vorschlag zum weiteren Verfahren:</b></label>
+            <label><b>{% if fina_object.suggestion %}{{ fina_object.suggestion}}{% endif %}</b></label>
+        </div>
+
+        <div class="form">
+            <label><b>Anlagen:</b></label><br>
+            <!--<textarea class = "w3-input w3-border" name = "anlgn" rows = "4" maxlength="260" style="margin-bottom: 10px">{{ fina_object.anlagen }}</textarea>-->
+        </div>
+
+        <div class = "form">
+            <label><b>Beschluss:</b></label>
+            <label><b>{% if fina_object.beschluss %}{{ fina_object.beschluss }}{% endif %}</b></label>
+        </div>
+
+        <div class = "form">
+            <label><b>Beschlusstext:</b></label>
+            <label><b>{% if fina_object.beschlusstext %}{{ fina_object.beschlusstext }}{% endif %}</b></label>
+        </div>
+
+        <div class = "form">
+            <label><b>Begründung zum Beschluss:</b></label>
+            <label><b>{% if fina_object.beschlussgrund %}{{ fina_object.beschlussgrund }}{% endif %}</b></label>
+        </div>
+
+        <div class = "w3-row-padding">
+            <input type="button" class = "w3-button w3-yellow mybutton" value="Antrag Drucken" onclick="window.print()">
+        </div>
+</div>
+{% include 'footer.html' %}
+</body>
+</html>
