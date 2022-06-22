@@ -28,7 +28,7 @@ import re
 def checkFileSize(attachment):
     if(attachment == None):
         return attachment
-        
+
     limit = 5 * 1024 * 1024 #5 MiB
     if attachment.size > limit:
         #print("File too large. Size should not exceed 5 MiB.")
@@ -394,14 +394,18 @@ def published_applications(request):
         if 'display-applications' in request.POST:
 
             office = request.POST.get('election_input')
-
+            startdate = request.POST.get('sdat')
+            enddate = request.POST.get('edat')
+            if not startdate or not enddate:
+                return render(request, 'stat_html/published_applications.html')
+                
             # chain all the objects together
             if not office:
-                uni_objects = Universall.objects.filter(flag=1).order_by('-date')
-                fin_objects = Finance.objects.filter(flag=1).order_by('-date')
-                pos_objects = Position.objects.filter(flag=1).order_by('-date')
-                adv_members = AdvisoryMember.objects.filter(flag=1).order_by('-date')
-                con_objects = Conduct.objects.filter(flag=1).order_by('-date')
+                uni_objects = Universall.objects.filter(flag=1, date__range=[startdate, enddate]).order_by('-date')
+                fin_objects = Finance.objects.filter(flag=1, date__range=[startdate, enddate]).order_by('-date')
+                pos_objects = Position.objects.filter(flag=1, date__range=[startdate, enddate]).order_by('-date')
+                adv_members = AdvisoryMember.objects.filter(flag=1, date__range=[startdate, enddate]).order_by('-date')
+                con_objects = Conduct.objects.filter(flag=1, date__range=[startdate, enddate]).order_by('-date')
                 context = {
                     'uni_object': uni_objects,
                     'fin_object': fin_objects,
@@ -410,23 +414,24 @@ def published_applications(request):
                     'con_object': con_objects,
                     'pos': office
                 }
+       
             else:
                 # set the context to the variables out of the database
-                context = get_all_objects(office) #do not work now
+                context = get_all_objects(office, startdate, enddate)
             
             return render(request, 'published_applications_out.html', context)
 
     return render(request, 'stat_html/published_applications.html')
 
 
-def get_all_objects(office):
+def get_all_objects(office, startdate, enddate):
     # get all objects of every model
     # logger.warning(office)
-    uni_objects = Universall.objects.filter(office=office).order_by('-date')
-    fin_objects = Finance.objects.filter(office=office).order_by('-date')
-    pos_objects = Position.objects.filter(office=office).order_by('-date')
-    adv_members = AdvisoryMember.objects.filter(office=office).order_by('-date')
-    con_objects = Conduct.objects.filter(office=office).order_by('-date')
+    uni_objects = Universall.objects.filter(office=office, date__range=[startdate, enddate], flag=1).order_by('-date')
+    fin_objects = Finance.objects.filter(office=office, date__range=[startdate, enddate], flag=1).order_by('-date')
+    pos_objects = Position.objects.filter(office=office, date__range=[startdate, enddate], flag=1).order_by('-date')
+    adv_members = AdvisoryMember.objects.filter(office=office, date__range=[startdate, enddate], flag=1).order_by('-date')
+    con_objects = Conduct.objects.filter(office=office, date__range=[startdate, enddate], flag=1).order_by('-date')
 
     # chain all the objects together
     # set the context to the variables out of the database
@@ -440,6 +445,86 @@ def get_all_objects(office):
     }
 
     return context
+
+def show_universall(request):
+
+    number = request.GET.get('antrag')
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/universally_public.html')
+    # else render with object
+
+    # get the object
+    uni_object = get_object_or_404(Universall, number=number)
+    context = {
+        'uni_object': uni_object
+    }
+    return render(request, 'stat_html/universally_public.html', context)
+
+
+def show_advisory(request):
+
+    number = request.GET.get('antrag')
+    if not number:
+        return render(request, 'stat_html/advisory_member_public.html')
+    # else render with object
+    # get object out of database
+    advi_object = get_object_or_404(AdvisoryMember, number=number)
+    context = {
+        'advi_object': advi_object
+    }
+    return render(request, 'stat_html/advisory_member_public.html', context)
+
+
+def show_position(request):
+
+    number = request.GET.get('antrag')
+
+    if not number:
+        return render(request, 'stat_html/election_report_public.html')
+
+    posi_object = get_object_or_404(Position, number=number)
+    context = {
+        'posi_object': posi_object
+    }
+    return render(request, 'stat_html/election_report_public.html', context)
+
+
+def show_finance(request):
+
+    number = request.GET.get('antrag')
+
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/finance_public.html')
+    # else render with object
+
+    fina_object = get_object_or_404(Finance, number=number)
+    context = {
+        'fina_object': fina_object
+    }
+    return render(request, 'stat_html/finance_public.html', context)
+
+
+def show_conduct(request):
+
+    number = request.GET.get('antrag')
+
+    # when number is not given render without object
+    if not number:
+        return render(request, 'stat_html/establishing_conduct_public.html')
+    # else render with object
+
+    # get the object
+    con_object = get_object_or_404(Conduct, number=number)
+    context = {
+        'con_object': con_object
+    }
+    return render(request, 'stat_html/establishing_conduct_public.html', context)
+
+
+
+
 
 
 
@@ -457,14 +542,16 @@ def get_all_by_electioninput(request):
         if 'display-applications' in request.POST:
 
             office = request.POST.get('election_input')
+            startdate = request.POST.get('sdat')
+            enddate = request.POST.get('edat')
 
             # chain all the objects together
             if not office:
-                uni_objects = Universall.objects.all().order_by('-date')
-                fin_objects = Finance.objects.all().order_by('-date')
-                pos_objects = Position.objects.all().order_by('-date')
-                adv_members = AdvisoryMember.objects.all().order_by('-date')
-                con_objects = Conduct.objects.all().order_by('-date')
+                uni_objects = Universall.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                fin_objects = Finance.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                pos_objects = Position.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                adv_members = AdvisoryMember.objects.filter(date__range=[startdate, enddate]).order_by('-date')
+                con_objects = Conduct.objects.filter(date__range=[startdate, enddate]).order_by('-date')
                 context = {
                     'uni_object': uni_objects,
                     'fin_object': fin_objects,
@@ -475,7 +562,7 @@ def get_all_by_electioninput(request):
                 }
             else:
                 # set the context to the variables out of the database
-                context = get_all_objects(office) #do not work now
+                context = get_all_objects(office, startdate, enddate)
 
             return render(request, 'intern_out.html', context)
 
@@ -498,9 +585,9 @@ def get_all_by_electioninput(request):
                 for class_name in array_of_classes:
                     try:
                         object = get_object_or_404(class_name, number=number)
-                        print(class_name)
                     except:
                         print('get_object_or_404 -> Error 404')
+                        continue
 
                     if object: #if object not empty
                         print("IsObject")
