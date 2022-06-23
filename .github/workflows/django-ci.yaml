@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Django CI/CD
-env:
+name: Django CI/CD 
+env: 
   SQL_ENGINE: django.db.backends.postgresql
   SQL_DATABASE: abv
   SQL_USER: abv
@@ -56,7 +56,6 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-
       - name: Install requirements
         run: |
           ls -a
