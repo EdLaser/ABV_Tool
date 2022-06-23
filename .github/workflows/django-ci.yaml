@@ -55,7 +55,7 @@ jobs:
       - name: setup venv
         run: |
           python -m venv venv
-          source venv/bin/activate
+          source venv/bin/activate^
           
       - name: Install requirements
         run: |
@@ -74,6 +74,5 @@ jobs:
         run: |
           ls -a
           python manage.py test
-
        
       
