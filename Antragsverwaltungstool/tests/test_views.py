@@ -143,24 +143,79 @@ class TestViews(TestCase):
     def test_change_universall_GET(self):
         response = self.client.get(reverse('change_uni'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_change_advisory_GET(self):
         response = self.client.get(reverse('change_advi'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_change_position_GET(self):
         response = self.client.get(reverse('change_posi'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_change_finance_GET(self):
         response = self.client.get(reverse('change_fin'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_change_conduct_GET(self):
         response = self.client.get(reverse('change_con'))
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_change_advisory_POST(self):
+        response = self.client.post(reverse('change_advi'), {
+        })
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_change_position_POST(self):
+        response = self.client.post(reverse('change_posi'), {
+        })
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_change_finance_POST(self):
+        response = self.client.post(reverse('change_fin'), {
+        })
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_change_conduct_POST(self):
+        response = self.client.post(reverse('change_con'), {
+        })
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_change_universall_POST(self):
+        response = self.client.post(reverse('change_uni'), {
+        })
+
+        self.assertEquals(response.status_code, 302)
+        
+    def test_show_universall_GET(self):
+        response = self.client.get(reverse('show_uni'))
+
+        self.assertEquals(response.status_code, 200)
+        
+    def test_show_advisory_GET(self):
+        response = self.client.get(reverse('show_advi'))
+
+        self.assertEquals(response.status_code, 200)
+        
+    def test_show_position_GET(self):
+        response = self.client.get(reverse('show_posi'))
+
+        self.assertEquals(response.status_code, 200)
+        
+    def test_show_finance_GET(self):
+        response = self.client.get(reverse('show_fin'))
+
+        self.assertEquals(response.status_code, 200)
+        
+    def test_show_conduct_GET(self):
+        response = self.client.get(reverse('show_con'))
 
         self.assertEquals(response.status_code, 200)

@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from Antragsverwaltungstool.views import index, new_universall, new_finance, new_position, new_advisory, new_conduct, get_all_by_electioninput, change_universall, change_advisory, change_position, change_finance, change_conduct
+from Antragsverwaltungstool.views import index, new_universall, new_finance, new_position, new_advisory, new_conduct, get_all_by_electioninput, change_universall, change_advisory, change_position, change_finance, change_conduct, show_universall, show_advisory, show_position, show_finance, show_conduct
 
 """Die Reverse-Funktion ermöglicht es, URL-Details aus der Datei url's.py über den dort angegebenen Namenswert abzurufen."""
 """Die Resolve-Funktion ermöglicht es, URL-Pfade zu den entsprechenden View-Funktionen aufzulösen."""
@@ -66,3 +66,28 @@ class TestUrls(SimpleTestCase):
         url = reverse('change_con')
         print(resolve(url))
         self.assertEquals(resolve(url).func, change_conduct)
+        
+    def test_show_universall(self):
+        url = reverse('show_uni')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, show_universall)
+        
+    def test_show_advisory(self):
+        url = reverse('show_advi')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, show_advisory)
+        
+    def test_show_position(self):
+        url = reverse('show_posi')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, show_position)
+        
+    def test_show_finance(self):
+        url = reverse('show_fin')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, show_finance)
+        
+    def test_show_conduct(self):
+        url = reverse('show_con')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, show_conduct)
