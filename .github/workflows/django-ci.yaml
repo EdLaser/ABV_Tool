@@ -3,7 +3,12 @@
 name: Django CI/CD 
 
 env:
-  TEST_PATH: ./django-on-docker/app/
+  SQL_ENGINE: django.db.backends.postgresql
+  SQL_DATABASE: abv
+  SQL_USER: abv
+  SQL_PASSWORD: abv
+  SQL_HOST: localhost
+  SQL_PORT: 5432
 
 # Controls when the workflow will run
 on:
@@ -25,7 +30,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9]
     services:
       postgres_main:
         image: postgres:13
@@ -34,9 +39,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: hello_django
-          POSTGRES_PASSWORD: hello_django
-          POSTGRES_DB: hello_django_dev
+          POSTGRES_USER: $SQL_USER
+          POSTGRES_PASSWORD: $SQL_PASSWORD
+          POSTGRES_DB: $SQL_DATABASE
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -51,27 +56,25 @@ jobs:
 
       - name: setup venv
         run: |
-          cd $TEST_PATH
           python -m venv venv
           source venv/bin/activate
 
       - name: Install requirements
         run: |
+          ls -a
           python -m pip install --upgrade pip
-          cd $TEST_PATH
-          pip install -r requirements.txt
+          pip install -r requierements.txt
       
       - name: Run Tests
         env: 
           DEBUG: "0"
           SECRET_KEY: CI_CD_TEST_KEY
-          POSTGRES_USER: hello_django
-          POSTGRES_PASSWORD: hello_django
-          POSTGRES_DB: hello_django_dev
+          POSTGRES_USER: $SQL_USER
+          POSTGRES_PASSWORD: $SQL_PASSWORD
+          POSTGRES_DB: $SQL_DATABASE
           POSTGRES_PORT: 5432
         run: |
           ls -a
-          cd $TEST_PATH
           python manage.py test
 
        
