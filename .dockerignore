@@ -1,0 +1,4 @@
+Serverstart.sh
+dockerfile
+.dockerignore
+start-compose.sh
