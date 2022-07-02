@@ -21,11 +21,11 @@
 <div class = "content w3-animate-opacity">
 {% block input %}
 {% endblock %}
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {%  csrf_token %}
         <div class = "form">
             <label><b>Antragstitel:</b></label><br>
-            <input class = "w3-input w3-border" type = "text" name = "titel" required placeholder = "Antrag auf..." value="{{ uni_object.title }}">
+            <input class = "w3-input w3-border" type = "text" pattern = '(^[A-Z, Ä, Ö, Ü][a-z, ä, ö, ü, ß]{1,})' name = "titel" required placeholder = "Antrag auf..." value="{{ uni_object.title }}">
         </div>
 
         <div class = "w3-half npad">
@@ -69,7 +69,7 @@
 
         <div class = "w3-half npad">
             <label><b>Name:</b></label><br>
-            <input class = "w3-input w3-border" type = "text" name = "name" required placeholder = "Max Mustermann" value="{{ uni_object.name }}">
+            <input class = "w3-input w3-border" type = "text" pattern = '(^[A-Z, Ö, Ä, Ü][a-z, ä, ö, ü, ß]{1,}\s[A-Z, Ö, Ä, Ü][a-z, ä, ö, ü, ß]{1,})' name = "name" required placeholder = "Max Mustermann" value="{{ uni_object.name }}">
         </div>
         <div class = "w3-half">
             <label><b>E-Mail:</b></label>
@@ -86,7 +86,7 @@
                 <img src="{% static 'img/info.png' %}" width = "16" height = "16" alt = "Info icon"/>
                 <span class="tooltiptext"><script src="{% static 'text/mouseovers/antragtext.js' %}"></script>
             </span></div>
-            <textarea class = "w3-input w3-border" name = "antrtext" rows = "4" maxlength="260">{% if uni_object %}{{ uni_object.text }}{% else %}Der StuRa möge beschließen{% endif %}</textarea>
+            <textarea class = "w3-input w3-border" name = "antrtext" rows = "4" maxlength="1000">{% if uni_object %}{{ uni_object.text }}{% else %}Der StuRa möge beschließen{% endif %}</textarea>
         </div>
 
         <div class = "form">
