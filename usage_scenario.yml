@@ -1,0 +1,44 @@
+networks:
+  example-network:
+services:
+  db-container:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=abv
+      - POSTGRES_PASSWORD=abv
+      - POSTGRES_DB=abv
+    networks:
+      - example-network
+  django-container:
+    image: abv_tool-webserver
+    ports:
+      - 8000:8000
+    restart: always
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=abv
+      - SQL_USER=abv
+      - SQL_PASSWORD=abv
+      - SQL_HOST=localhost
+      - SQL_PORT=5432
+    networks:
+      - example-network
+
+flow:
+  - name: Check Website
+    container: puppeteer-container
+    commands:
+      - type: console
+        command: node /var/www/puppeteer-flow.js
+        note: Starting Puppeteer Flow
+        read-notes-stdout: true
+      - type: console
+        command: sleep 30
+        note: Idling
+      - type: console
+        command: node /var/www/puppeteer-flow.js
+        note: Starting Puppeteer Flow again
+        read-notes-stdout: true
